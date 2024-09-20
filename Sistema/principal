@@ -1,0 +1,85 @@
+from Clases.Persona import Persona
+from Clases.Mascota import Mascota
+from Clases.Sistema import Sistema
+import os
+
+def datos_persona()-> Persona:
+    nombre = input('Ingresa el nombre: ')
+    edad = int(input('Ingrese la edad: '))
+    direccion = input('Ingrese la direccion: ')
+    telefono = int(input('Ingrese el numero de telefono: '))
+    nmascotas = int(input('Ingrese el numero de mascotas que  tiene actualmente: '))
+    persona = Persona(nombre,edad,direccion,telefono,nmascotas)
+    return persona
+
+def datos_mascota()-> Mascota:
+    nombre = input('Ingresa el nombre: ')
+    tipo = input('Ingrese el tipo de animal: ')
+    edad = int(input('Ingrese la edad: '))
+    raza = input('Ingrese la  raza: ')
+    estado_salud = input('Estado de salud: ')
+    disponible = True if input('disponible (Si/No): ') == 'Si' else False
+    mascota = Mascota(nombre,tipo,edad,raza,estado_salud,disponible)
+    return mascota
+
+def opcion(opc: int,sistema: Sistema)->None:
+    """Selecciona que opcion dependiendo del usuario"""
+    if opc == 1:
+        persona = datos_persona()
+        sistema.registrar_persona(persona)
+    elif opc == 2:
+        mascota = datos_mascota()
+        sistema.agregar_mascota(mascota)
+    elif opc == 3:
+        sistema.listar_personas()
+    elif opc == 4:
+        sistema.listar_mascotas_disponibles()
+    elif opc == 5:
+        per = input('Ingresa el nombre de la persona: ')
+        mas = input('Ingresa el nombre de la mascota: ')
+        sistema.realizar_adopcion(per,mas)
+    elif opc == 6:
+        sistema.generar_reporte_adopciones()
+    elif opc == 7:
+        mas = input('Ingresa el nombre de la mascota: ')
+        sistema.eliminar_mascota(mas)
+    elif opc == 8:
+        per = input('Ingresa el nombre de la persona: ')
+        sistema.eliminar_persona(per)
+    elif opc == 9:
+        print('Centro de adopcion terminado')
+        return False
+    input('Presionar enter para continuar...')
+    return True
+        
+       
+
+def optener_datos(sistema: Sistema) -> None:
+    """Menu de opciones y optencion de opcion"""
+
+    os.system('cls')
+    
+    opciones = """
+        -------------------------
+            Centro  de adopcion
+        -------------------------
+        1. Registro de  personas
+        2. Agregar Mascota
+        3. Lista de personas
+        4. Mascotas disponibles
+        5. Realizar adopcion
+        6. Reporte de adopciones
+        7. Eliminar una mascota
+        8. Eliminar una persona
+        9. Salir
+    """
+    print(opciones)
+    opc = int(input('Elija una opcion:  '))
+    return opcion(opc,sistema)
+
+
+if __name__== '__main__':
+    Estado = True
+    sistema = Sistema()
+    while(Estado):
+        Estado = optener_datos(sistema)
